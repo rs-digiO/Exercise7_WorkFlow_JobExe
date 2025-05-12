@@ -13,10 +13,11 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true'
       - name: Lint code
         run: npm run lint
   test:
@@ -28,10 +29,11 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true'
       - name: Test code
         id: run-test
         run: npm run test
@@ -51,10 +53,11 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true'
       - name: Build website
         id: build-website
         run: npm run build
